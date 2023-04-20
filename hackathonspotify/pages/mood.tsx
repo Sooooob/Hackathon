@@ -10,9 +10,11 @@ import { AlbumModal } from "~/components/AlbumModal";
 import { useGameContext } from "~/context/gameContext";
 import useRequiredSession from "~/hooks/useRequiredSession";
 import { useTimeContext } from "~/context/timeContext";
+import { useRouter } from "next/router";
 
 export default function Mood() {
-  const { albums: albumData, currentScore } = useGameContext();
+  const router = useRouter();
+  const { albums: albumData, currentScore, reset } = useGameContext();
   const { toggleTimer, currentTimer } = useTimeContext();
 
   const [selectedAlbum, setSelectedAlbum] = useState<any>(undefined);
@@ -27,7 +29,10 @@ export default function Mood() {
   function removeSelectedAlbum() {
     setSelectedAlbum(null);
   }
-
+  const onClickHome = () => {
+    reset();
+    router.push("/");
+  };
   return (
     <main className="flex min-h-screen flex-col items-center py-16 px-8 lg:px24 transition-all">
       <div className="flex w-full justify-between items-center">
@@ -60,10 +65,10 @@ export default function Mood() {
             </span>
           </button>
           <button
-            onClick={toggleTimer}
+              onClick={() => onClickHome()}
             className="border rounded-full w-12 h-12 hover:text-gray-200 transition-all hover:bg-gray-700"
           >
-            <span className="material-icons-outlined !text-2xl">pause</span>
+            <span className="material-icons-outlined !text-2xl">house</span>
           </button>
         </div>
       </div>
