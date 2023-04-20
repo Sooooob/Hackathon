@@ -4,19 +4,18 @@ import Image from "next/image";
 import Emo from "../public/emo.png";
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import { getUsersTopAlbums } from "~/lib/spotify";
 
 export default function Home() {
   var session = useSession();
 
-  useEffect(() => {
-    // @ts-ignore
-    const accessToken = session?.data?.accessToken;
+  // useEffect(() => {
+  //   // @ts-ignore
+  //   const accessToken = session?.data?.accessToken;
 
-    if (accessToken) {
-      getUsersTopAlbums(accessToken);
-    }
-  }, [session]);
+  //   if (accessToken) {
+  //     getUsersTopAlbums(accessToken);
+  //   }
+  // }, [session]);
 
   return (
     <main className="flex min-h-screen flex-col items-center pt-16 px-8">
