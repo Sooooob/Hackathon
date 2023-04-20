@@ -31,7 +31,7 @@ export default function Finished() {
           <Image
             src={Emo}
             alt="o"
-            className="px-1 pt-4"
+            className="px-1 pt-4 animate-bounce"
             width={50}
             height={14}
           />
