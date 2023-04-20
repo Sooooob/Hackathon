@@ -74,7 +74,7 @@ export default function Mood() {
       </div>
 
       <div className="py-8">
-        <p className="text-lg font-bold">Score: {currentScore}</p>
+        <p className="max-w-7xl px-8 text-lg font-bold">Score: {currentScore}</p>
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:max-w-none mt-8 grid grid-cols-1 sm:grid-cols-2 md:grip-col-4 lg:grid-cols-5 overflow-hidden text-center ">
             {albumData &&
