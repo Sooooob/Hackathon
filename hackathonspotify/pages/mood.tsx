@@ -1,6 +1,7 @@
 import Image from 'next/image'
 // @ts-ignore
 import { Pixelify } from "react-pixelify";
+import classnames from "classnames";
 
 import Emo from '../public/emo.png'
 import React, { useEffect, useState } from "react";
@@ -8,19 +9,8 @@ import { RulesModal } from "~/components/RulesModal";
 import { AlbumModal } from "~/components/AlbumModal";
 import { useSession } from "next-auth/react";
 import { Album, getUsersTopAlbums } from "~/lib/spotify";
+import { className } from "postcss-selector-parser";
 
-const SpotifyAlbums = [
-    { id: 1, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455" },
-    { id: 2, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", },
-    { id: 3, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", },
-    { id: 4, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455" },
-    { id: 5, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", },
-    { id: 6, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", },
-    { id: 7, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", },
-    { id: 8, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", },
-    { id: 9, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", },
-    { id: 10, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", }
-];
 
 export default function Mood() {
     const session = useSession({ required: true });
@@ -34,7 +24,7 @@ export default function Mood() {
     const getAlbumData = async () => {
         // @ts-ignore
         const accessToken = session?.data?.accessToken;
-        if (accessToken) {
+        if (accessToken && (!albumData || albumData?.length === 0)) {
             const data = await getUsersTopAlbums(accessToken);
             setAlbumData(data);
         }
@@ -46,7 +36,7 @@ export default function Mood() {
 
     useEffect(() => {
         const interval = setInterval(function () {
-            if(play) {
+            if (play) {
                 if (time.s === 59) {
                     setTime({ s: 0, m: time.m + 1 });
                 } else {
@@ -108,24 +98,35 @@ export default function Mood() {
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                     <div className="mx-auto max-w-2xl lg:max-w-none mt-8 grid grid-cols-1 sm:grid-cols-2 md:grip-col-4 lg:grid-cols-5 overflow-hidden text-center ">
                         {albumData && albumData.map((album, index) => {
-                            return(
+                            if (index === 5) {
+                                album.success = true;
+                            }
+                            return (
                                 <div
                                     key={album.albumId}
-                                    className="w-52 h-52 card"
+                                    className="w-52 h-52 card relative"
                                     style={{ animationDelay: `${((index + 1) * 100) / 2}ms` }}
                                 >
                                     <button
                                         type="button"
-                                        className={`flex justify-center items-center w-52 h-52 bg-contain shadow-inner hover:shadow-lg relative overflow-hidden cardInner opacity-0 `}
+                                        className={classnames(
+                                            "flex justify-center items-center w-52 h-52 bg-contain shadow-inner hover:shadow-lg relative overflow-hidden cardInner opacity-0",
+                                            album.success && "after:content-['*'] after:bg-green-700 opacity-90"
+                                        )}
                                         onClick={() => setSelectedAlbum(album)}
                                         style={{ animationDelay: `${((index + 1) * 100) / 2}ms`, animationFillMode: "forwards", imageRendering: "pixelated", }}
-
+                                        disabled={album.success}
                                     >
                                         <Pixelify
                                             src={album.artworkUrl}
-                                            pixelSize={25}
+                                            pixelSize={album.success ? 0 : 25}
                                         />
                                     </button>
+                                    {album.success && (
+                                        <div className="absolute bg-green-500 inset-0 opacity-50 flex items-center justify-center">
+                                            <span className="material-icons-outlined !text-5xl transition-all">check</span>
+                                        </div>
+                                    )}
                                 </div>
                             )
                         })}
