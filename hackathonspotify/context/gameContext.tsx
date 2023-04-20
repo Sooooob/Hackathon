@@ -4,11 +4,16 @@ import { ReactNode, useContext, useEffect, useState } from "react";
 import { getUsersTopAlbums } from "~/lib/spotify";
 import { Album } from "~/lib/spotify";
 
+export interface GuessResult {
+  correct: boolean;
+}
+
 export interface GameContextState {
   albums: Album[];
+  artistNames: string[];
   highscore: number;
-  guessAlbum(albumId: string, albumName: string): void;
-  guessArtist(albumId: string, artistName: string): void;
+  guessAlbum(albumId: string, albumName: string): GuessResult;
+  guessArtist(albumId: string, artistName: string): GuessResult;
 }
 
 const GameContext = React.createContext({} as GameContextState);
@@ -38,17 +43,30 @@ const GameContextProvider = ({
       value={{
         albums,
         highscore,
+        artistNames: albums.map((x) => x.artistName),
         guessAlbum: (albumId: string, albumName: string) => {
           const album = albums.find((x) => x.albumId === albumId);
-          // if (album?.name === albumName) {
-          //     setScore(score + 1);
-          // }
+          const isCorrect = album?.name === albumName;
+
+          if (isCorrect) {
+            setHighscore((x) => x + 1);
+          }
+
+          return {
+            correct: isCorrect,
+          };
         },
         guessArtist: (albumId: string, artistName: string) => {
           const album = albums.find((x) => x.albumId === albumId);
-          // if (album?.artists[0].name === artistName) {
-          //     setScore(score + 1);
-          // }
+          const isCorrect = album?.artistName === artistName;
+
+          if (isCorrect) {
+            setHighscore((x) => x + 1);
+          }
+
+          return {
+            correct: isCorrect,
+          };
         },
       }}
     >

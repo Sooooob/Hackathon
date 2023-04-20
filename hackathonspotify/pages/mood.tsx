@@ -12,12 +12,30 @@ import { useGameContext } from "~/context/gameContext";
 
 export default function Mood() {
   const session = useSession({ required: true });
-  const { albums: albumData } = useGameContext();
+  const { albums: albumData, guessAlbum, guessArtist } = useGameContext();
 
   const [play, setPlay] = useState(true);
   const [time, setTime] = useState({ m: 0, s: 0 });
   const [selectedAlbum, setSelectedAlbum] = useState<any>(undefined);
   const [openRulesModal, setOpenRulesModal] = useState(false);
+
+  const onGuessArtist = (albumId: string, artistName: string) => {
+    const result = guessArtist(albumId, artistName);
+    if (result.correct) {
+      // do something
+    } else {
+      // do something
+    }
+  };
+
+  const onGuessAlbum = (albumId: string, albumName: string) => {
+    const result = guessAlbum(albumId, albumName);
+    if (result.correct) {
+      // do something
+    } else {
+      // do something
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(function () {
