@@ -46,6 +46,9 @@ const GameContextProvider = ({
   const [currentScore, setCurrentscore] = useState<number>(0);
 
   const handleGameOver = () => {
+    if (currentScore > highscore) {
+      setHighscore(currentScore);
+    }
     if (albums.filter((x) => x.answered).length === albums.length) {
       router.push("/finished");
     }
@@ -103,7 +106,7 @@ const GameContextProvider = ({
 
           if (album) album.answered = true;
           if (isCorrect) {
-            setHighscore((x) => x + 1);
+            setCurrentscore((x) => x + 1);
             album.success = true;
           }
 
@@ -119,7 +122,7 @@ const GameContextProvider = ({
 
           if (album) album.answered = true;
           if (isCorrect) {
-            setHighscore((x) => x + 1);
+            setCurrentscore((x) => x + 1);
             album.success = true;
           }
 
