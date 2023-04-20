@@ -1,70 +1,58 @@
 import Image from 'next/image'
+import { Pixelify } from "react-pixelify";
 
 import Emo from '../public/emo.png'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { RulesModal } from "~/components/RulesModal";
 
 const SpotifyAlbums = [
-    { id: 1, domainantColour: '#000000', },
-    { id: 2, domainantColour: '#000000', },
-    { id: 3, domainantColour: '#000000', },
-    { id: 4, domainantColour: '#000000', },
-    { id: 5, domainantColour: '#000000', },
-    { id: 6, domainantColour: '#000000', },
-    { id: 7, domainantColour: '#000000', },
-    { id: 8, domainantColour: '#000000', },
-    { id: 9, domainantColour: '#000000', },
-    { id: 10, domainantColour: '#000000', },
-    { id: 11, domainantColour: '#000000', },
-    { id: 12, domainantColour: '#000000', },
-    { id: 13, domainantColour: '#000000', },
-    { id: 14, domainantColour: '#000000', },
-    { id: 15, domainantColour: '#000000', },
-    { id: 16, domainantColour: '#000000', },
-    { id: 17, domainantColour: '#000000', },
-    { id: 18, domainantColour: '#000000', },
-    { id: 19, domainantColour: '#000000', },
-    { id: 20, domainantColour: '#000000', },
-    { id: 21, domainantColour: '#000000', },
-    { id: 2, domainantColour: '#000000', },
-    { id: 3, domainantColour: '#000000', },
-    { id: 4, domainantColour: '#000000', },
-    { id: 5, domainantColour: '#000000', },
-    { id: 6, domainantColour: '#000000', },
-    { id: 7, domainantColour: '#000000', },
-    { id: 8, domainantColour: '#000000', },
-    { id: 9, domainantColour: '#000000', },
-    { id: 10, domainantColour: '#000000', },
-    { id: 11, domainantColour: '#000000', },
-    { id: 12, domainantColour: '#000000', },
-    { id: 13, domainantColour: '#000000', },
-    { id: 14, domainantColour: '#000000', },
-    { id: 15, domainantColour: '#000000', },
-    { id: 16, domainantColour: '#000000', },
-    { id: 17, domainantColour: '#000000', },
-    { id: 18, domainantColour: '#000000', },
-    { id: 19, domainantColour: '#000000', },
-    { id: 20, domainantColour: '#000000', },
-    { id: 21, domainantColour: '#000000', },
-    { id: 2, domainantColour: '#000000', },
-    { id: 3, domainantColour: '#000000', },
-    { id: 4, domainantColour: '#000000', },
-    { id: 5, domainantColour: '#000000', },
-    { id: 6, domainantColour: '#000000', },
-    { id: 7, domainantColour: '#000000', },
-    { id: 8, domainantColour: '#000000', },
-    { id: 9, domainantColour: '#000000', },
-    { id: 10, domainantColour: '#000000', },
+    { id: 1, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455" },
+    { id: 2, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", },
+    { id: 3, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", },
+    { id: 4, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455" },
+    { id: 5, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", },
+    { id: 6, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", },
+    { id: 7, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", },
+    { id: 8, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", },
+    { id: 9, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", },
+    { id: 10, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455", }
 ];
 
 export default function Mood() {
-    useEffect(() => {
+    const [play, setPlay] = useState(true);
+    const [time, setTime] = useState({ m: 0, s: 0 });
+    const [selectedAlbum, setSelectedAlbum] = useState<any>();
+    const [openRulesModal, setOpenRulesModal] = useState(false)
 
-    }, []);
+    useEffect(() => {
+        const interval = setInterval(function () {
+            if(play) {
+                if (time.s === 59) {
+                    setTime({ s: 0, m: time.m + 1 });
+                } else {
+                    setTime({ s: time.s + 1, m: time.m })
+                }
+            }
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [time, play]);
+
+    const togglePlay = () => {
+        setPlay(!play);
+    }
+
+    const toggleRulesModal = () => {
+        togglePlay();
+        setOpenRulesModal(!openRulesModal);
+    }
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between py-16 px-8 lg:px24 transition-all">
             <div className="flex w-full justify-between items-center">
+                <div className="flex items-center">
                     <span className="material-icons-outlined !text-4xl hover:text-gray-500 transition-all">timer</span>
+                    <span className="pl-4 font-bold">{time.m.toString().padStart(2, '0')}: {time.s.toString().padStart(2, '0')}</span>
+                </div>
 
                 <h2 className="flex flex-grow items-center justify-center text-center text-4xl font-bold tracking-tight text-white sm:text-6xl">
                     M
@@ -77,30 +65,50 @@ export default function Mood() {
                     />odify</h2>
 
                 <div className="flex gap-3 items-center">
-                    <button className="border rounded-full w-12 h-12 hover:text-gray-500 transition-all">
+                    <button
+                        className="border rounded-full w-12 h-12 hover:text-gray-500 transition-all"
+                        onClick={toggleRulesModal}
+                    >
                         <span className="material-icons-outlined !text-3xl">question_mark</span>
                     </button>
-                    <button className="border rounded-full w-12 h-12 hover:text-gray-500 transition-all">
-                        <span className="material-icons-outlined !text-2xl">menu</span>
+                    <button
+                        onClick={togglePlay}
+                        className="border rounded-full w-12 h-12 hover:text-gray-200 transition-all hover:bg-gray-700"
+                    >
+                        <span className="material-icons-outlined !text-2xl">pause</span>
                     </button>
                 </div>
             </div>
 
             <div className="py-8">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                    <div className="mx-auto max-w-2xl lg:max-w-none mt-8 grid grid-cols-1 sm:grid-cols-2 md:grip-col-4 lg:grid-cols-6 overflow-hidden text-center ">
-                        {SpotifyAlbums.map((album, index) => (
-                            <div
-                                key={album.id}
-                                className="flex justify-center items-center w-40 h-40 bg-white/5 p-8 border transform transition duration-500 ease-in-out card"
-                                style={{ animationDelay: `${((index+1) * 100) / 2}ms`, }}
-                            >
-                                here
-                            </div>
-                        ))}
+                    <div className="mx-auto max-w-2xl lg:max-w-none mt-8 grid grid-cols-1 sm:grid-cols-2 md:grip-col-4 lg:grid-cols-5 overflow-hidden text-center ">
+                        {SpotifyAlbums.map((album, index) => {
+                            return(
+                                <div
+                                    key={album.id}
+                                    className="w-52 h-52 border card"
+                                    style={{ animationDelay: `${((index + 1) * 100) / 2}ms` }}
+                                >
+                                    <button
+                                        type="button"
+                                        className={`flex justify-center items-center w-52 h-52 bg-contain shadow-inner hover:shadow-lg relative overflow-hidden`}
+                                        onClick={() => setSelectedAlbum(album)}
+                                    >
+                                        <Pixelify
+                                            src={album.image}
+                                            className={`w-52 h-52 cardInner opacity-0 `}
+                                            style={{ animationDelay: `${((index + 1) * 100) / 2}ms`, animationFillMode: "forwards", imageRendering: "pixelated", }}
+                                            pixelSize={30}
+                                        />
+                                    </button>
+                                </div>
+                            )
+                        })}
                     </div>
                 </div>
             </div>
+            <RulesModal open={openRulesModal} close={toggleRulesModal} />
         </main>
     )
 }
