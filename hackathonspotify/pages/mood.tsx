@@ -1,4 +1,5 @@
 import Image from 'next/image'
+// @ts-ignore
 import { Pixelify } from "react-pixelify";
 
 import Emo from '../public/emo.png'

@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
+// @ts-ignore
 import { Pixelify } from "react-pixelify";
 
 type Props = {
