@@ -112,9 +112,6 @@ export default function Mood() {
           <div className="mx-auto max-w-2xl lg:max-w-none mt-8 grid grid-cols-1 sm:grid-cols-2 md:grip-col-4 lg:grid-cols-5 overflow-hidden text-center ">
             {albumData &&
               albumData.map((album, index) => {
-                if (index === 5) {
-                  album.success = true;
-                }
                 return (
                   <div
                     key={album.albumId}
