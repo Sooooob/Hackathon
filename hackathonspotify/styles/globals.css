@@ -25,3 +25,25 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.card {
+  -webkit-animation: flip 1s;
+  animation: flip 1s;
+}
+
+@-webkit-keyframes flip {
+  from {
+    transform: rotateY(180deg)
+  }
+  to {
+    transform: rotateY(0deg)
+  }
+}
+@keyframes flip {
+  from {
+    transform: rotateY(180deg)
+  }
+  to {
+    transform: rotateY(0deg)
+  }
+}
