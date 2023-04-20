@@ -8,13 +8,23 @@ export interface GuessResult {
   correct: boolean;
 }
 
+export type HintType = "ReleaseDate" | "TopSong";
+
+export interface Hint {
+  albumId: string;
+  type: HintType;
+  value: string;
+}
+
 export interface GameContextState {
   albums: Album[];
   artistNames: string[];
   highscore: number;
+  availableHints: Hint[];
   currentScore: number;
   guessAlbum(albumId: string, albumName: string): GuessResult;
   guessArtist(albumId: string, artistName: string): GuessResult;
+  requestHint(albumId: string): void;
 }
 
 const GameContext = React.createContext({} as GameContextState);
@@ -28,6 +38,7 @@ const GameContextProvider = ({
 }) => {
   const session = useSession();
 
+  const [hints, setHints] = useState<Hint[]>([]);
   const [albums, setAlbums] = useState<Album[]>([]);
   const [highscore, setHighscore] = useState<number>(0);
   const [currentScore, setCurrentscore] = useState<number>(0);
@@ -45,13 +56,42 @@ const GameContextProvider = ({
       value={{
         albums,
         highscore,
+        availableHints: hints,
+        requestHint: (albumId: string) => {
+          const album = albums.find((x) => x.albumId === albumId);
+          const existingHints = hints.filter((x) => x.albumId === albumId);
+          const existingHintTypes = existingHints.map((x) => x.type);
+
+          if (!existingHintTypes.includes("ReleaseDate")) {
+            setHints((h) => [
+              ...h,
+              {
+                albumId,
+                type: "ReleaseDate",
+                value: album?.releaseDate ?? "",
+              },
+            ]);
+            return;
+          }
+          if (!existingHintTypes.includes("TopSong")) {
+            setHints((h) => [
+              ...h,
+              {
+                albumId,
+                type: "TopSong",
+                value: album?.topSong ?? "",
+              },
+            ]);
+            return;
+          }
+        },
         currentScore,
         artistNames: albums.map((x) => x.artistName),
         guessAlbum: (albumId: string, albumName: string) => {
           const album = albums.find((x) => x.albumId === albumId);
           const isCorrect = album?.name === albumName;
 
-          if (album) album.answered = true;
+          if (album) album.success = true;
           if (isCorrect) {
             setHighscore((x) => x + 1);
             album.success = true;
@@ -65,7 +105,7 @@ const GameContextProvider = ({
           const album = albums.find((x) => x.albumId === albumId);
           const isCorrect = album?.artistName === artistName;
 
-          if (album) album.answered = true;
+          if (album) album.success = true;
           if (isCorrect) {
             setHighscore((x) => x + 1);
             album.success = true;
