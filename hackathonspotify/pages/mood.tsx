@@ -122,8 +122,8 @@ export default function Mood() {
                       type="button"
                       className={classnames(
                         "flex justify-center items-center w-52 h-52 bg-contain shadow-inner hover:shadow-lg relative overflow-hidden cardInner opacity-0",
-                        album.success &&
-                        "after:content-['*'] after:bg-green-700 opacity-90"
+                        album.answered &&
+                          "after:content-['*'] after:bg-green-700 opacity-90"
                       )}
                       onClick={() => setSelectedAlbum(album)}
                       style={{
@@ -131,17 +131,24 @@ export default function Mood() {
                         animationFillMode: "forwards",
                         imageRendering: "pixelated",
                       }}
-                      disabled={album.success}
+                      disabled={album.answered}
                     >
                       <Pixelify
                         src={album.artworkUrl}
-                        pixelSize={album.success ? 0 : 25}
+                        pixelSize={album.answered ? 0 : 25}
                       />
                     </button>
-                    {album.success && (
+                    {album.answered && album.success && (
                       <div className="absolute bg-green-500 inset-0 opacity-50 flex items-center justify-center">
                         <span className="material-icons-outlined !text-5xl transition-all">
                           check
+                        </span>
+                      </div>
+                    )}
+                    {album.answered && !album.success && (
+                      <div className="absolute bg-red-500 inset-0 opacity-50 flex items-center justify-center">
+                        <span className="material-icons-outlined !text-5xl transition-all">
+                          close
                         </span>
                       </div>
                     )}

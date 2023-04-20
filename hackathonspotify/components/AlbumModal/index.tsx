@@ -92,9 +92,10 @@ const AlbumModal = ({ album, open, close }: Props) => {
                           {/*// @ts-ignore*/}
                           <Select
                             label="Select an album"
+                            selected={selectedAlbum || ""}
                             data={albumData.map((x) => ({
                               name: x.name,
-                              id: x.albumId,
+                              id: x.name,
                             }))}
                             // @ts-ignore
                             onChange={(e) => {
@@ -109,6 +110,7 @@ const AlbumModal = ({ album, open, close }: Props) => {
                           <Select
                             label="Select an artist"
                             data={artistNames.map((x) => ({ name: x, id: x }))}
+                            selected={selectedArtist || ""}
                             // @ts-ignore
                             onChange={(e) => {
                               setSelectedArtist(e.name);

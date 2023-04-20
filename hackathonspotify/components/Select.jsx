@@ -9,8 +9,8 @@ const Select = ({ data, selected, onChange, label }) => {
                     <div className="relative mt-2">
                         <Listbox.Button
                             className="relative flex items-center justify-between w-full cursor-default rounded-md bg-gray-900 text-white pl-3 pr-4 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                            {selected?.name
-                                ? <span className="bg-gray-900 text-white">{selected?.name}</span>
+                            {selected
+                                ? <span className="bg-gray-900 text-white">{selected}</span>
                                 : <span className="bg-gray-900 text-gray-300">{label || "..."}</span>
                             }
                             <span className="material-icons-outlined !text-3xl hover:text-gray-500 transition-all">{open ? "arrow_drop_up" : "arrow_drop_down"}</span>
