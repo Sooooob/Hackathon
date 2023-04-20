@@ -10,6 +10,7 @@ export interface GuessResult {
 
 export interface GameContextState {
   albums: Album[];
+  artistNames: string[];
   highscore: number;
   guessAlbum(albumId: string, albumName: string): GuessResult;
   guessArtist(albumId: string, artistName: string): GuessResult;
@@ -42,6 +43,7 @@ const GameContextProvider = ({
       value={{
         albums,
         highscore,
+        artistNames: albums.map((x) => x.artistName),
         guessAlbum: (albumId: string, albumName: string) => {
           const album = albums.find((x) => x.albumId === albumId);
           const isCorrect = album?.name === albumName;
