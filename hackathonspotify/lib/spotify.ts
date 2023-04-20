@@ -1,23 +1,42 @@
-const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
+export interface Album {
+  albumId: string,
+  name: string,
+  releaseDate: string,
+  artistName: string,
+  artworkUrl: string,
+}
 
-const getAccessToken = async (code: string) => {
-  const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
+const getUsersTopItems = async (accessToken: string) => {
+  const response = await get(accessToken, "https://api.spotify.com/v1/me/top/tracks?limit=50");
 
-  if (!redirect_uri) {
-    throw new Error("SPOTIFY_REDIRECT_URI is not defined");
-  }
+  //@ts-ignore
+  let albums = (await response.json()).items.filter(x => x.album.album_type === "ALBUM").map((xx) => ({
+    albumId: xx.id,
+    name: xx.album.name,
+    releaseDate: xx.album.release_date,
+    artistName: xx.artists[0].name,
+    artworkUrl: xx.album.images[0].url,
+  }) as Album);
 
-  let formData = new FormData();
-  formData.append("grant_type", "authorization_code");
-  formData.append("code", code);
-  formData.append("redirect_url", redirect_uri);
+  return albums;
 
-  const response = await fetch(TOKEN_ENDPOINT, {
-    method: "POST",
-    body: formData,
-  });
+}
 
-  return response.json();
+const getUsersSavedAlbums = async (accessToken: string) => {
+  const response = await get(accessToken, "https://api.spotify.com/v1/me/albums");
+}
+
+const get = async (accessToken: string, url: string) =>
+  await fetch(
+    url,
+    {
+      headers: {
+        "Authorization": `Bearer ${accessToken}`
+      }
+    });
+
+
+export {
+  getUsersSavedAlbums,
+  getUsersTopItems
 };
-
-export { getAccessToken };

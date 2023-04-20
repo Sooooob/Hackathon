@@ -1,10 +1,19 @@
-import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { getUsersSavedAlbums, getUsersTopItems } from "~/lib/spotify";
 
 export default function Home() {
   var session = useSession({ required: true });
+
+  useEffect(() => {
+    // @ts-ignore
+    const accessToken = session?.data?.accessToken;
+
+    if (accessToken) {
+      getUsersTopItems(accessToken);
+    }
+  }, [session]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
