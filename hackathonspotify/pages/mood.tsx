@@ -8,55 +8,23 @@ import React, { useEffect, useState } from "react";
 import { RulesModal } from "~/components/RulesModal";
 import { AlbumModal } from "~/components/AlbumModal";
 import { useGameContext } from "~/context/gameContext";
-import { Album, getUsersTopAlbums } from "~/lib/spotify";
 import useRequiredSession from "~/hooks/useRequiredSession";
 
 export default function Mood() {
-  const session = useRequiredSession();
-  const { albums: albumData, guessAlbum, guessArtist } = useGameContext();
+  const {
+    albums: albumData,
+    currentTimer,
+    guessAlbum,
+    guessArtist,
+    toggleTimer,
+  } = useGameContext();
 
-  const [play, setPlay] = useState(true);
-  const [time, setTime] = useState({ m: 0, s: 0 });
   const [selectedAlbum, setSelectedAlbum] = useState<any>(undefined);
   const [openRulesModal, setOpenRulesModal] = useState(false);
-
-  const onGuessArtist = (albumId: string, artistName: string) => {
-    const result = guessArtist(albumId, artistName);
-    if (result.correct) {
-      // do something
-    } else {
-      // do something
-    }
-  };
-
-  const onGuessAlbum = (albumId: string, albumName: string) => {
-    const result = guessAlbum(albumId, albumName);
-    if (result.correct) {
-      // do something
-    } else {
-      // do something
-    }
-  };
-
-  // useEffect(() => {
-  //   const interval = setInterval(function () {
-  //     if (play) {
-  //       if (time.s === 59) {
-  //         setTime({ s: 0, m: time.m + 1 });
-  //       } else {
-  //         setTime({ s: time.s + 1, m: time.m });
-  //       }
-  //     }
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, [time, play]);
-
-  const togglePlay = () => {
-    setPlay(!play);
-  };
+  useRequiredSession();
 
   const toggleRulesModal = () => {
-    togglePlay();
+    toggleTimer();
     setOpenRulesModal(!openRulesModal);
   };
 
@@ -71,10 +39,7 @@ export default function Mood() {
           <span className="material-icons-outlined !text-4xl hover:text-gray-500 transition-all">
             timer
           </span>
-          <span className="pl-4 font-bold">
-            {time.m.toString().padStart(2, "0")}:{" "}
-            {time.s.toString().padStart(2, "0")}
-          </span>
+          <span className="pl-4 font-bold">{currentTimer}</span>
         </div>
 
         <h2 className="flex flex-grow items-center justify-center text-center text-4xl font-bold tracking-tight text-white sm:text-6xl">
@@ -99,7 +64,7 @@ export default function Mood() {
             </span>
           </button>
           <button
-            onClick={togglePlay}
+            onClick={toggleTimer}
             className="border rounded-full w-12 h-12 hover:text-gray-200 transition-all hover:bg-gray-700"
           >
             <span className="material-icons-outlined !text-2xl">pause</span>
