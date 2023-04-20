@@ -64,7 +64,7 @@ export default function Mood() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between py-16 px-8 lg:px24 transition-all">
+    <main className="flex min-h-screen flex-col items-center py-16 px-8 lg:px24 transition-all">
       <div className="flex w-full justify-between items-center">
         <div className="flex items-center">
           <span className="material-icons-outlined !text-4xl hover:text-gray-500 transition-all">
