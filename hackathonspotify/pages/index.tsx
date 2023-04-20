@@ -3,11 +3,11 @@ import Link from "next/link";
 import Image from 'next/image'
 import Emo from '../public/emo.png'
 
-import { useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { getUsersTopAlbums } from "~/lib/spotify";
 
 export default function Home() {
-  var session = useSession({ required: true,  });
+  var session = useSession();
 
   useEffect(() => {
     // @ts-ignore
@@ -42,27 +42,24 @@ export default function Home() {
                 Game
               </button>
             </Link>
-            <Link href="/api/auth/signout">
-              <button
-                type="button"
-                className="bg-spotify-green w-40 rounded-md px-3.5 py-2.5 text-sm font-bold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-              >
-                Log out
-              </button>
-            </Link>
+            <button
+              type="button"
+              className="bg-spotify-green w-40 rounded-md px-3.5 py-2.5 text-sm font-bold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+              onClick={() => signOut()}
+            >
+              Log out
+            </button>
           </>
 
         ) : (
-          <Link href="/auth">
-            <button
-              type="button"
-              className="bg-spotify-green w-40 rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-              disabled
-              title="Coming soon"
-            >
-              Log in
-            </button>
-          </Link>
+          <button
+            type="button"
+            className="bg-spotify-green w-40 rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            title="Coming soon"
+            onClick={() => signIn("spotify")}
+          >
+            Log in
+          </button>
         )}
       </div>
       <div className="flex flex-col mt-10 items-center gap-2">
