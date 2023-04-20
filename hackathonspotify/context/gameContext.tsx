@@ -26,6 +26,7 @@ export interface GameContextState {
   guessAlbum(albumId: string, albumName: string): GuessResult;
   guessArtist(albumId: string, artistName: string): GuessResult;
   requestHint(albumId: string): void;
+  reset(): void;
 }
 
 const GameContext = React.createContext({} as GameContextState);
@@ -54,6 +55,18 @@ const GameContextProvider = ({
     }
   };
 
+  const handleReset = () => {
+    setHints([]);
+    setAlbums([]);
+    setCurrentscore(0);
+
+    // @ts-ignore
+    if (session?.data?.accessToken) {
+      // @ts-ignore
+      getUsersTopAlbums(session?.data?.accessToken).then((x) => setAlbums(x));
+    }
+  };
+
   useEffect(() => {
     // @ts-ignore
     if (session?.data?.accessToken) {
@@ -67,6 +80,7 @@ const GameContextProvider = ({
       value={{
         albums,
         highscore,
+        reset: handleReset,
         getAvailableHints: (albumId: string) => {
           return hints.filter((x) => x.albumId === albumId);
         },
@@ -101,9 +115,12 @@ const GameContextProvider = ({
 
         currentScore,
         artistNames: albums
-            .filter((album, index, self) => index === self.findIndex((t) => t.artistName === album.artistName))
-            .map((x) => x.artistName)
-            .sort(() => Math.random() - 0.5),
+          .filter(
+            (album, index, self) =>
+              index === self.findIndex((t) => t.artistName === album.artistName)
+          )
+          .map((x) => x.artistName)
+          .sort(() => Math.random() - 0.5),
         guessAlbum: (albumId: string, albumName: string) => {
           const album = albums.find((x) => x.albumId === albumId);
           const isCorrect = album?.name === albumName;

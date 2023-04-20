@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
-import Image from 'next/image'
-import Emo from '../public/emo.png'
+import Image from "next/image";
+import Emo from "../public/emo.png";
 
 import { signIn, signOut, useSession } from "next-auth/react";
 import { getUsersTopAlbums } from "~/lib/spotify";
@@ -29,7 +29,9 @@ export default function Home() {
             className="animate-bounce px-1 pt-4"
             width={50}
             height={14}
-          />odify</h2>
+          />
+          odify
+        </h2>
       </div>
       <div className="gap-3 flex mt-20">
         {session.status === "authenticated" ? (
@@ -50,7 +52,6 @@ export default function Home() {
               Log out
             </button>
           </>
-
         ) : (
           <button
             type="button"
@@ -63,9 +64,7 @@ export default function Home() {
         )}
       </div>
       <div className="flex flex-col mt-10 items-center gap-2">
-        <p className="underline underline-offset-2">
-          How to play:
-        </p>
+        <p className="underline underline-offset-2">How to play:</p>
         <p className="flex items-center">
           M
           <Image
@@ -74,22 +73,16 @@ export default function Home() {
             className="animate-bounce"
             width={17}
             height={10}
-          />odify
-          will randomly generate 50 Album cover art images from your Spotify music,
+          />
+          odify will randomly generate 10 album covers from your Spotify music,
         </p>
         <p>
-          it will be your job to determine the correct album and artist from a pixilated image
+          it will be your job to determine the correct album and artist from a
+          pixilated image.
         </p>
-        <p className="underline underline-offset-2 mt-4">
-          Rules:
-        </p>
-        <p>
-          Each tile is worth 20 points. 10 for artist, 10 for album.
-
-        </p>
-        <p>
-          A hint will cost you 5 points, as will submitting an incorrect answer
-        </p>
+        <p className="underline underline-offset-2 mt-4">Rules:</p>
+        <p>Each tile is worth 20 points. 10 for artist, 10 for album.</p>
+        <p>A hint will cost you 5 points.</p>
         <p className="flex items-center">
           G
           <Image
@@ -98,9 +91,10 @@ export default function Home() {
             className="animate-bounce"
             width={17}
             height={10}
-          />od Luck!
+          />
+          od Luck!
         </p>
       </div>
-    </main >
+    </main>
   );
 }
