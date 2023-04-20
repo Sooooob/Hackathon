@@ -130,22 +130,41 @@ const AlbumModal = ({ album, open, close }: Props) => {
                         Enter
                       </button>
                     </div>
-                    <button onClick={() => requestHint(album.albumId)}>
-                      Stuck? Click here for a hint.
-                    </button>
                     {availableHints.length != 2 && (
-                      <p className="text-gray-300">
-                        You have {2 - availableHints.length} hints left.
-                      </p>
+                      <>
+                        <button
+                          className="hover:underline"
+                          onClick={() => requestHint(album.albumId)}
+                        >
+                          Stuck? Click here for a hint.
+                        </button>
+                        <p className="text-gray-300">
+                          You have {2 - availableHints.length} hints left.
+                        </p>
+                      </>
                     )}
                     {availableHints.length > 0 && (
-                      <div className="flex flex-col gap-2">
-                        {availableHints.map((hint) => (
-                          <div key={hint.value} className="flex gap-2">
-                            <p className="text-gray-300">{hint.value}</p>
-                          </div>
-                        ))}
-                      </div>
+                      <>
+                        <p className="border-b w-1/3 mb-3 pb-1">Hints</p>
+                        <hr className="border-b" />
+                        <div className="flex flex-col gap-2 bg-slate-900 rounded p-5 text-lg">
+                          {availableHints.map((hint) => (
+                            <div key={hint.value} className="flex gap-2">
+                              {hint.type === "ReleaseDate" && (
+                                <span className="text-gray-300">
+                                  Release Date:
+                                </span>
+                              )}
+                              {hint.type === "TopSong" && (
+                                <span className="text-gray-300">
+                                  Most Popular Song:
+                                </span>
+                              )}
+                              <p className="text-gray-50">{hint.value}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </>
                     )}
                   </div>
                 </div>
