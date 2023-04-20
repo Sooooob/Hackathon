@@ -12,6 +12,7 @@ export interface GameContextState {
   albums: Album[];
   artistNames: string[];
   highscore: number;
+  currentScore: number;
   guessAlbum(albumId: string, albumName: string): GuessResult;
   guessArtist(albumId: string, artistName: string): GuessResult;
 }
@@ -29,6 +30,7 @@ const GameContextProvider = ({
 
   const [albums, setAlbums] = useState<Album[]>([]);
   const [highscore, setHighscore] = useState<number>(0);
+  const [currentScore, setCurrentscore] = useState<number>(0);
 
   useEffect(() => {
     // @ts-ignore
@@ -43,6 +45,7 @@ const GameContextProvider = ({
       value={{
         albums,
         highscore,
+        currentScore,
         artistNames: albums.map((x) => x.artistName),
         guessAlbum: (albumId: string, albumName: string) => {
           const album = albums.find((x) => x.albumId === albumId);

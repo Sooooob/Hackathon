@@ -4,9 +4,12 @@ import Image from 'next/image'
 import Emo from '../public/emo.png'
 import React from "react";
 import { useSession } from "next-auth/react";
+import { useGameContext } from "~/context/gameContext";
+import Link from "next/link";
 
 export default function Finished() {
     const session = useSession({ required: true });
+    const { highscore, currentScore } = useGameContext();
 
     return (
         <main className="flex min-h-screen flex-col items-center pt-16 px-8 transition-all">
@@ -26,20 +29,30 @@ export default function Finished() {
                 <div className="mx-auto max-w-7xl px-6 lg:px-8 flex">
                     <div className="border-r pt-16 pr-16 w-1/2 flex flex-col items-center">
                         <h4 className="mb-4">Current Score</h4>
-                        <span className="material-icons-outlined bg-green-600 rounded-lg !text-9xl">check_circle</span>
-                        <p className="!text-9xl pt-8">250</p>
+                        <span className="material-icons-outlined bg-green-600 p-2 rounded-lg !text-9xl">check_circle</span>
+                        <p className="!text-9xl pt-8">{currentScore}</p>
 
                     </div>
                     <div className="border-l pt-16 pb-12 pl-16 w-1/2 flex flex-col items-center">
                         <h4 className="mb-4">High Score</h4>
-                        <span className="material-icons bg-green-600 rounded-lg !text-9xl">contactless</span>
+                        <span className="material-icons bg-green-600 p-2 rounded-lg !text-9xl">star</span>
 
-                        <p className="!text-9xl pt-8">250</p>
+                        <p className="!text-9xl pt-8">{highscore}</p>
                     </div>
                 </div>
-                <button className="w-32 mt-8 mx-auto max-w-7xl px-6 flex items-center justify-center bg-white text-black py-3 rounded-full text-2xl font-bold tracking-tight hover:bg-gray-100 transition-all">
-                    Logout
-                </button>
+                <div className="flex justify-center gap-16">
+                    <Link href="/">
+                        <button className="flex-grow w-32 mt-8 mx-auto max-w-7xl px-6 flex items-center justify-center bg-white text-black py-3 rounded-full text-2xl font-bold tracking-tight hover:bg-gray-100 transition-all">
+                            Home
+                        </button>
+                    </Link>
+
+                    <div>
+                    <button className="w-32 mt-8 mx-auto max-w-7xl px-6 flex items-center justify-center bg-white text-black py-3 rounded-full text-2xl font-bold tracking-tight hover:bg-gray-100 transition-all">
+                        Logout
+                    </button>
+                    </div>
+                </div>
             </div>
         </main>
     )
