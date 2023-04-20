@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { getUsersSavedAlbums, getUsersTopItems } from "~/lib/spotify";
+import { getUsersSavedAlbums, getUsersTopAlbums } from "~/lib/spotify";
 
 export default function Home() {
   var session = useSession({ required: true });
@@ -11,7 +11,7 @@ export default function Home() {
     const accessToken = session?.data?.accessToken;
 
     if (accessToken) {
-      getUsersTopItems(accessToken);
+      getUsersTopAlbums(accessToken);
     }
   }, [session]);
 

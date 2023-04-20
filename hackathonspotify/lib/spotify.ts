@@ -1,42 +1,45 @@
 export interface Album {
-  albumId: string,
-  name: string,
-  releaseDate: string,
-  artistName: string,
-  artworkUrl: string,
+    albumId: string,
+    name: string,
+    releaseDate: string,
+    artistName: string,
+    artworkUrl: string,
 }
 
-const getUsersTopItems = async (accessToken: string) => {
-  const response = await get(accessToken, "https://api.spotify.com/v1/me/top/tracks?limit=50");
+const getUsersTopAlbums = async (accessToken: string) => {
+    const response = await get(accessToken, "https://api.spotify.com/v1/me/top/tracks?limit=50");
 
-  //@ts-ignore
-  let albums = (await response.json()).items.filter(x => x.album.album_type === "ALBUM").map((xx) => ({
-    albumId: xx.id,
-    name: xx.album.name,
-    releaseDate: xx.album.release_date,
-    artistName: xx.artists[0].name,
-    artworkUrl: xx.album.images[0].url,
-  }) as Album);
+    //@ts-ignore
+    let albums = (await response.json()).items.filter(x => x.album.album_type === "ALBUM").map((xx) => ({
+        albumId: xx.id,
+        name: xx.album.name,
+        releaseDate: xx.album.release_date,
+        artistName: xx.artists[0].name,
+        artworkUrl: xx.album.images[0].url,
+    }) as Album);
 
-  return albums;
-
+    // FILTER OUT DUPLICATES BASED ON NAME
+    // @ts-ignore
+    return albums.filter((album, index, self) => index === self.findIndex((t) => (
+        t.name === album.name
+    )));
 }
 
 const getUsersSavedAlbums = async (accessToken: string) => {
-  const response = await get(accessToken, "https://api.spotify.com/v1/me/albums");
+    const response = await get(accessToken, "https://api.spotify.com/v1/me/albums");
 }
 
 const get = async (accessToken: string, url: string) =>
-  await fetch(
-    url,
-    {
-      headers: {
-        "Authorization": `Bearer ${accessToken}`
-      }
-    });
+    await fetch(
+        url,
+        {
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });
 
 
 export {
-  getUsersSavedAlbums,
-  getUsersTopItems
+    getUsersSavedAlbums,
+    getUsersTopAlbums
 };

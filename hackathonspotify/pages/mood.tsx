@@ -2,8 +2,11 @@ import Image from 'next/image'
 import { Pixelify } from "react-pixelify";
 
 import Emo from '../public/emo.png'
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RulesModal } from "~/components/RulesModal";
+import { AlbumModal } from "~/components/AlbumModal";
+import { useSession } from "next-auth/react";
+import { Album, getUsersTopAlbums } from "~/lib/spotify";
 
 const SpotifyAlbums = [
     { id: 1, domainantColour: '#000000', image: "https://upload.wikimedia.org/wikipedia/en/f/f6/Taylor_Swift_-_1989.png?20140818215455" },
@@ -19,10 +22,26 @@ const SpotifyAlbums = [
 ];
 
 export default function Mood() {
+    const session = useSession({ required: true });
+
     const [play, setPlay] = useState(true);
     const [time, setTime] = useState({ m: 0, s: 0 });
-    const [selectedAlbum, setSelectedAlbum] = useState<any>();
+    const [selectedAlbum, setSelectedAlbum] = useState<any>(undefined);
+    const [albumData, setAlbumData] = useState<Album[]>();
     const [openRulesModal, setOpenRulesModal] = useState(false)
+
+    const getAlbumData = async () => {
+        // @ts-ignore
+        const accessToken = session?.data?.accessToken;
+        if (accessToken) {
+            const data = await getUsersTopAlbums(accessToken);
+            setAlbumData(data);
+        }
+    }
+
+    useEffect(() => {
+        getAlbumData();
+    }, [session]);
 
     useEffect(() => {
         const interval = setInterval(function () {
@@ -44,6 +63,10 @@ export default function Mood() {
     const toggleRulesModal = () => {
         togglePlay();
         setOpenRulesModal(!openRulesModal);
+    }
+
+    function removeSelectedAlbum() {
+        setSelectedAlbum(null);
     }
 
     return (
@@ -83,23 +106,23 @@ export default function Mood() {
             <div className="py-8">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                     <div className="mx-auto max-w-2xl lg:max-w-none mt-8 grid grid-cols-1 sm:grid-cols-2 md:grip-col-4 lg:grid-cols-5 overflow-hidden text-center ">
-                        {SpotifyAlbums.map((album, index) => {
+                        {albumData && albumData.map((album, index) => {
                             return(
                                 <div
-                                    key={album.id}
-                                    className="w-52 h-52 border card"
+                                    key={album.albumId}
+                                    className="w-52 h-52 card"
                                     style={{ animationDelay: `${((index + 1) * 100) / 2}ms` }}
                                 >
                                     <button
                                         type="button"
-                                        className={`flex justify-center items-center w-52 h-52 bg-contain shadow-inner hover:shadow-lg relative overflow-hidden`}
+                                        className={`flex justify-center items-center w-52 h-52 bg-contain shadow-inner hover:shadow-lg relative overflow-hidden cardInner opacity-0 `}
                                         onClick={() => setSelectedAlbum(album)}
+                                        style={{ animationDelay: `${((index + 1) * 100) / 2}ms`, animationFillMode: "forwards", imageRendering: "pixelated", }}
+
                                     >
                                         <Pixelify
-                                            src={album.image}
-                                            className={`w-52 h-52 cardInner opacity-0 `}
-                                            style={{ animationDelay: `${((index + 1) * 100) / 2}ms`, animationFillMode: "forwards", imageRendering: "pixelated", }}
-                                            pixelSize={30}
+                                            src={album.artworkUrl}
+                                            pixelSize={25}
                                         />
                                     </button>
                                 </div>
@@ -109,6 +132,7 @@ export default function Mood() {
                 </div>
             </div>
             <RulesModal open={openRulesModal} close={toggleRulesModal} />
+            {selectedAlbum && <AlbumModal album={selectedAlbum} open={!!selectedAlbum} close={removeSelectedAlbum} />}
         </main>
     )
 }
