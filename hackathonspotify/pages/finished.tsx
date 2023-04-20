@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Emo from "../public/emo.png";
 import React, { useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useGameContext } from "~/context/gameContext";
 import Link from "next/link";
 import { useTimeContext } from "~/context/timeContext";
@@ -78,7 +78,12 @@ export default function Finished() {
           </button>
 
           <div>
-            <button className="w-32 mt-8 max-w-7xl px-6 flex items-center justify-center bg-white text-black py-3 rounded-full text-2xl font-bold tracking-tight hover:bg-gray-100 transition-all">
+            <button
+              onClick={() => {
+                signOut();
+              }}
+              className="w-32 mt-8 max-w-7xl px-6 flex items-center justify-center bg-white text-black py-3 rounded-full text-2xl font-bold tracking-tight hover:bg-gray-100 transition-all"
+            >
               Logout
             </button>
           </div>
