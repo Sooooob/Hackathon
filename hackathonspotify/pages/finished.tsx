@@ -31,13 +31,17 @@ export default function Finished() {
                 </h2>
             </div>
 
-            <div className="py-8 mt-8">
+            <div className="py-8 mt-8 font-bold">
+                Congratulations, here are your scores:
+            </div>
+
+            <div className="mt-2">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8 flex">
                     <div className="border-r pt-16 pr-16 w-1/2 flex flex-col items-center">
                         <h4 className="mb-4">Current Score</h4>
                         <span className="material-icons-outlined bg-green-600 p-2 rounded-lg !text-9xl">
-              check_circle
-            </span>
+                          check_circle
+                        </span>
                         <p className="!text-9xl pt-8">{currentScore}</p>
                         <p className="!text-1xl italic pt-8">Time taken: {currentTimer}</p>
                     </div>
@@ -45,8 +49,8 @@ export default function Finished() {
                     <div className="border-l pt-16 pb-20 pl-16 w-1/2 flex flex-col items-center">
                         <h4 className="mb-4">High Score</h4>
                         <span className="material-icons bg-green-600 p-2 rounded-lg !text-9xl">
-              star
-            </span>
+                          star
+                        </span>
 
                         <p className="!text-9xl pt-8">{highscore}</p>
                         <p className="!text-1xl italic pt-8">Total time: {currentTimer}</p>
