@@ -1,5 +1,6 @@
 export interface Album {
     success: boolean;
+    answered: boolean;
     albumId: string,
     name: string,
     releaseDate: string,
