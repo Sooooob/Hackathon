@@ -134,8 +134,8 @@ const AlbumModal = ({ album, open, close }: Props) => {
                     {availableHints.length != 2 && (
                       <>
                         <button
-                          className="hover:underline"
-                          onClick={() => requestHint(album.albumId)}
+                            className="mt-6 rounded-md bg-spotify-green hover:bg-green-400 px-3 py-2 text-white text-sm font-semibold transition-all shadow-sm cursor-pointer"
+                            onClick={() => requestHint(album.albumId)}
                         >
                           Stuck? Click here for a hint.
                         </button>
