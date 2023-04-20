@@ -63,7 +63,7 @@ const AlbumModal = ({ album, open, close }: Props) => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel
-                className="relative transform overflow-hidden rounded-lg bg-gray-900 px-6 pb-6 pt-7 text-left shadow-xl
+                className="relative transform rounded-lg bg-black px-6 pb-6 pt-7 text-left shadow-xl
                                 transition-all sm:my-8 sm:w-full sm:max-w-3xl sm:p-6"
               >
                 <div>
@@ -125,7 +125,7 @@ const AlbumModal = ({ album, open, close }: Props) => {
                       <button
                         onClick={onSubmit}
                         disabled={!canSubmit}
-                        className="my-3 inline-flex w-full justify-center rounded-md bg-slate-600 px-3 py-2 text-white text-sm font-semibold transition-all text-white shadow-sm hover:bg-slate-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="my-3 inline-flex w-full justify-center rounded-md bg-spotify-green hover:bg-green-400 px-3 py-2 text-white text-sm font-semibold transition-all text-white shadow-sm cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       >
                         Enter
                       </button>

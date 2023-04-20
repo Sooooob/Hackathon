@@ -12,7 +12,7 @@ export interface Album {
 const getUsersTopAlbums = async (accessToken: string) => {
   const response = await get(
     accessToken,
-    "https://api.spotify.com/v1/me/top/tracks?time_range=long_term&&limit=50"
+    "https://api.spotify.com/v1/me/top/tracks?time_range=medium_term&&limit=50"
   );
 
   let albums = (await response.json()).items
