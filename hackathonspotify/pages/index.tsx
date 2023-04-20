@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
+import Image from 'next/image'
+import Emo from '../public/emo.png'
+
 import { useSession } from "next-auth/react";
-import { getUsersSavedAlbums, getUsersTopAlbums } from "~/lib/spotify";
+import { getUsersTopAlbums } from "~/lib/spotify";
 
 export default function Home() {
-  var session = useSession({ required: true });
+  var session = useSession({ required: true,  });
 
   useEffect(() => {
     // @ts-ignore
@@ -16,45 +19,91 @@ export default function Home() {
   }, [session]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-center font-mono text-sm lg:flex">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-200 sm:text-6xl">
-            Welcome to Moodify!
-          </h1>
-        </div>
+    <main className="flex min-h-screen flex-col items-center pt-16 px-8">
+      <div className="flex w-full justify-between items-center">
+        <h2 className="flex flex-grow items-center justify-center text-center text-4xl font-bold  text-white sm:text-6xl">
+          M
+          <Image
+            src={Emo}
+            alt="o"
+            className="animate-bounce px-1 pt-4"
+            width={50}
+            height={14}
+          />odify</h2>
       </div>
-      <div className="gap-3 flex">
-        <Link href="/auth">
-          <button
-            type="button"
-            className="w-40 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            disabled
-            title="Coming soon"
-          >
-            Auth
-          </button>
-        </Link>
-        <Link href="/mood">
-          <button
-            type="button"
-            className="w-40 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Mood board
-          </button>
-        </Link>
-        {session.status === "authenticated" && (
-          <Link href="/api/auth/signout">
+      <div className="gap-3 flex mt-20">
+        {session.status === "authenticated" ? (
+          <>
+            <Link href="/mood">
+              <button
+                type="button"
+                className="bg-spotify-green w-40 rounded-md px-3.5 py-2.5 text-sm font-bold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+              >
+                Game
+              </button>
+            </Link>
+            <Link href="/api/auth/signout">
+              <button
+                type="button"
+                className="bg-spotify-green w-40 rounded-md px-3.5 py-2.5 text-sm font-bold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+              >
+                Log out
+              </button>
+            </Link>
+          </>
+
+        ) : (
+          <Link href="/auth">
             <button
               type="button"
-              className="w-40 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="bg-spotify-green w-40 rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+              disabled
+              title="Coming soon"
             >
-              Sign out
+              Log in
             </button>
           </Link>
         )}
       </div>
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]"></div>
-    </main>
+      <div className="flex flex-col mt-10 items-center gap-2">
+        <p className="underline underline-offset-2">
+          How to play:
+        </p>
+        <p className="flex items-center">
+          M
+          <Image
+            src={Emo}
+            alt="o"
+            className="animate-bounce"
+            width={17}
+            height={10}
+          />odify
+          will randomly generate 50 Album cover art images from your Spotify music,
+        </p>
+        <p>
+          it will be your job to determine the correct album and artist from a pixilated image
+        </p>
+        <p className="underline underline-offset-2 mt-4">
+          Rules:
+        </p>
+        <p>
+          Each tile is worth 20 points. 10 for artist, 10 for album.
+
+        </p>
+        <p>
+          A hint will cost you 5 points, as will submitting an incorrect answer
+        </p>
+        <p className="flex items-center">
+          G
+          <Image
+            src={Emo}
+            alt="o"
+            className="animate-bounce"
+            width={17}
+            height={10}
+          />od Luck!
+        </p>
+      </div>
+    </main >
   );
 }

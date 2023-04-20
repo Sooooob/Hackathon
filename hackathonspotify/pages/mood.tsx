@@ -9,8 +9,6 @@ import { RulesModal } from "~/components/RulesModal";
 import { AlbumModal } from "~/components/AlbumModal";
 import { useSession } from "next-auth/react";
 import { Album, getUsersTopAlbums } from "~/lib/spotify";
-import { className } from "postcss-selector-parser";
-
 
 export default function Mood() {
     const session = useSession({ required: true });
@@ -73,7 +71,7 @@ export default function Mood() {
                     <Image
                         src={Emo}
                         alt="o"
-                        className="px-1 pt-4"
+                        className="animate-bounce px-1 pt-4"
                         width={50}
                         height={14}
                     />odify</h2>
