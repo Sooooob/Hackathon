@@ -133,22 +133,22 @@ const AlbumModal = ({ album, open, close }: Props) => {
 
                     {availableHints.length != 2 && (
                       <>
+                        <p className="text-gray-300 mt-4">
+                          You have {2 - availableHints.length} hints left.
+                        </p>
                         <button
-                            className="mt-6 rounded-md bg-spotify-green hover:bg-green-400 px-3 py-2 text-white text-sm font-semibold transition-all shadow-sm cursor-pointer"
+                            className="mt-3 rounded-md bg-spotify-green hover:bg-green-400 px-3 py-2 text-white text-sm font-semibold transition-all shadow-sm cursor-pointer"
                             onClick={() => requestHint(album.albumId)}
                         >
                           Stuck? Click here for a hint.
                         </button>
-                        <p className="text-gray-300">
-                          You have {2 - availableHints.length} hints left.
-                        </p>
+
                       </>
                     )}
                     {availableHints.length > 0 && (
                       <>
-                        <p className="border-b w-1/3 mb-3 pb-1">Hints</p>
-                        <hr className="border-b" />
-                        <div className="flex flex-col gap-2 bg-slate-900 rounded p-5 text-lg">
+                        <p className="border-b w-1/3 mt-6 pb-1">Hints</p>
+                        <div className="flex flex-col gap-2 bg-black rounded px-5 py-3 text-lg">
                           {availableHints.map((hint) => (
                             <div key={hint.value} className="flex gap-2">
                               {hint.type === "ReleaseDate" && (
