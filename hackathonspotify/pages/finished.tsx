@@ -38,7 +38,11 @@ export default function Finished() {
         </h2>
       </div>
 
-      <div className="py-8 mt-8">
+      <div className="pb-4 mt-8 font-bold">
+        Congratulations, here are your scores:
+      </div>
+
+      <div className="mt-2">
         <div className="mx-auto max-w-7xl px-6 lg:px-8 flex">
           <div className="border-r pt-16 pr-16 w-1/2 flex flex-col items-center">
             <h4 className="mb-4">Current Score</h4>
@@ -63,13 +67,13 @@ export default function Finished() {
         <div className="flex justify-center gap-16">
           <button
             onClick={() => onClickHome()}
-            className="w-32 mt-8 mx-auto max-w-7xl px-6 flex items-center justify-center bg-white text-black py-3 rounded-full text-2xl font-bold tracking-tight hover:bg-gray-100 transition-all"
+            className="w-32 mt-8 max-w-7xl px-6 flex items-center justify-center bg-white text-black py-3 rounded-full text-2xl font-bold tracking-tight hover:bg-gray-100 transition-all"
           >
             Home
           </button>
 
           <div>
-            <button className="w-32 mt-8 mx-auto max-w-7xl px-6 flex items-center justify-center bg-white text-black py-3 rounded-full text-2xl font-bold tracking-tight hover:bg-gray-100 transition-all">
+            <button className="w-32 mt-8 max-w-7xl px-6 flex items-center justify-center bg-white text-black py-3 rounded-full text-2xl font-bold tracking-tight hover:bg-gray-100 transition-all">
               Logout
             </button>
           </div>
