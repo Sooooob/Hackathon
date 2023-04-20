@@ -80,19 +80,10 @@ const AlbumModal = ({ album, open, close }: Props) => {
                     <h3 className="text-base font-semibold leading-6 text-gray-100 text-3xl mb-4">
                       Guess the ...
                     </h3>
-                    <div className="mt-2 relative">
-                      <div className="mx-auto overflow-hidden flex items-center justify-center">
-                        <Pixelify
-                          src={album.artworkUrl}
-                          pixelSize={30}
-                          width={450}
-                          height={450}
-                        />
-                      </div>
-
+                    <div className="relative">
                       <div className="flex gap-4 mb-3">
                         <div className="w-1/2">
-                          <p className="mt-8 text-gray-300">Album</p>
+                          <p className="mt-4 text-gray-300">Album</p>
                           {/*// @ts-ignore*/}
                           <Select
                             label="Select an album"
@@ -109,7 +100,7 @@ const AlbumModal = ({ album, open, close }: Props) => {
                         </div>
 
                         <div className="w-1/2">
-                          <p className="mt-8 text-gray-300">Artist</p>
+                          <p className="mt-4 text-gray-300">Artist</p>
                           {/*// @ts-ignore*/}
                           <Select
                             label="Select an artist"
@@ -125,11 +116,21 @@ const AlbumModal = ({ album, open, close }: Props) => {
                       <button
                         onClick={onSubmit}
                         disabled={!canSubmit}
-                        className="my-3 inline-flex w-full justify-center rounded-md bg-spotify-green hover:bg-green-400 px-3 py-2 text-white text-sm font-semibold transition-all text-white shadow-sm cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="mt-2 y-3 inline-flex w-full justify-center rounded-md bg-spotify-green hover:bg-green-400 px-3 py-2 text-white text-sm font-semibold transition-all text-white shadow-sm cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       >
                         Enter
                       </button>
+
+                      <div className="mx-auto mt-5 overflow-hidden flex items-center justify-center">
+                        <Pixelify
+                            src={album.artworkUrl}
+                            pixelSize={30}
+                            width={450}
+                            height={450}
+                        />
+                      </div>
                     </div>
+
                     {availableHints.length != 2 && (
                       <>
                         <button

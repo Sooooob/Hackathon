@@ -26,8 +26,6 @@ export interface GameContextState {
   guessAlbum(albumId: string, albumName: string): GuessResult;
   guessArtist(albumId: string, artistName: string): GuessResult;
   requestHint(albumId: string): void;
-  currentTimer: string;
-  toggleTimer(): void;
 }
 
 const GameContext = React.createContext({} as GameContextState);
@@ -46,36 +44,14 @@ const GameContextProvider = ({
   const [albums, setAlbums] = useState<Album[]>([]);
   const [highscore, setHighscore] = useState<number>(0);
   const [currentScore, setCurrentscore] = useState<number>(0);
-  const [play, setPlay] = useState(true);
-  const [time, setTime] = useState({ m: 0, s: 0 });
 
   const handleGameOver = () => {
-    if (play) {
-      setPlay(!play);
-    }
     if (currentScore > highscore) {
       setHighscore(currentScore);
     }
     if (albums.filter((x) => x.answered).length === albums.length) {
       router.push("/finished");
     }
-  };
-
-  useEffect(() => {
-    const interval = setInterval(function () {
-      if (play) {
-        if (time.s === 59) {
-          setTime({ s: 0, m: time.m + 1 });
-        } else {
-          setTime({ s: time.s + 1, m: time.m });
-        }
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [time, play]);
-
-  const togglePlay = () => {
-    setPlay(!play);
   };
 
   useEffect(() => {
@@ -91,11 +67,6 @@ const GameContextProvider = ({
       value={{
         albums,
         highscore,
-        currentTimer:
-          time.m.toString().padStart(2, "0") +
-          " " +
-          time.s.toString().padStart(2, "0"),
-        toggleTimer: togglePlay,
         getAvailableHints: (albumId: string) => {
           return hints.filter((x) => x.albumId === albumId);
         },
@@ -127,8 +98,12 @@ const GameContextProvider = ({
             return;
           }
         },
+
         currentScore,
-        artistNames: albums.map((x) => x.artistName),
+        artistNames: albums
+            .filter((album, index, self) => index === self.findIndex((t) => t.artistName === album.artistName))
+            .map((x) => x.artistName)
+            .sort(() => Math.random() - 0.5),
         guessAlbum: (albumId: string, albumName: string) => {
           const album = albums.find((x) => x.albumId === albumId);
           const isCorrect = album?.name === albumName;
