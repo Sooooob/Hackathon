@@ -30,7 +30,11 @@ const AlbumModal = ({ album, open, close }: Props) => {
     artistNames,
     guessAlbum,
     guessArtist,
+    requestHint,
+    getAvailableHints,
   } = useGameContext();
+
+  const availableHints = getAvailableHints(album.albumId);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -126,6 +130,23 @@ const AlbumModal = ({ album, open, close }: Props) => {
                         Enter
                       </button>
                     </div>
+                    <button onClick={() => requestHint(album.albumId)}>
+                      Stuck? Click here for a hint.
+                    </button>
+                    {availableHints.length != 2 && (
+                      <p className="text-gray-300">
+                        You have {2 - availableHints.length} hints left.
+                      </p>
+                    )}
+                    {availableHints.length > 0 && (
+                      <div className="flex flex-col gap-2">
+                        {availableHints.map((hint) => (
+                          <div key={hint.value} className="flex gap-2">
+                            <p className="text-gray-300">{hint.value}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </Dialog.Panel>

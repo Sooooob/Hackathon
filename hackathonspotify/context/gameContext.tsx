@@ -21,7 +21,7 @@ export interface GameContextState {
   albums: Album[];
   artistNames: string[];
   highscore: number;
-  availableHints: Hint[];
+  getAvailableHints(albumId: string): Hint[];
   currentScore: number;
   guessAlbum(albumId: string, albumName: string): GuessResult;
   guessArtist(albumId: string, artistName: string): GuessResult;
@@ -64,7 +64,9 @@ const GameContextProvider = ({
       value={{
         albums,
         highscore,
-        availableHints: hints,
+        getAvailableHints: (albumId: string) => {
+          return hints.filter((x) => x.albumId === albumId);
+        },
         requestHint: (albumId: string) => {
           const album = albums.find((x) => x.albumId === albumId);
           const existingHints = hints.filter((x) => x.albumId === albumId);
