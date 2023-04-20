@@ -99,7 +99,7 @@ const GameContextProvider = ({
           const album = albums.find((x) => x.albumId === albumId);
           const isCorrect = album?.name === albumName;
 
-          if (album) album.success = true;
+          if (album) album.answered = true;
           if (isCorrect) {
             setHighscore((x) => x + 1);
             album.success = true;
@@ -115,7 +115,7 @@ const GameContextProvider = ({
           const album = albums.find((x) => x.albumId === albumId);
           const isCorrect = album?.artistName === artistName;
 
-          if (album) album.success = true;
+          if (album) album.answered = true;
           if (isCorrect) {
             setHighscore((x) => x + 1);
             album.success = true;
