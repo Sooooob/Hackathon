@@ -65,9 +65,6 @@ const RulesModal = ({ open, close }: Props) => (
                                             Each tile is worth 20 points. 10 for artist, 10 for album.
 
                                         </p>
-                                        <p>
-                                            A hint will cost you 5 points, as will submitting an incorrect answer
-                                        </p>
                                         <p className="flex items-center">
                                             G
                                             <Image

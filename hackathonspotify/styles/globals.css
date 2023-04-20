@@ -42,11 +42,11 @@ body {
 }
 
 .card {
-  animation: flip 1s;
+  animation: flip 1500ms;
 }
 
 .cardInner {
-  animation: opacity 1s;
+  animation: opacity 1500ms;
 }
 
 @keyframes flip {
