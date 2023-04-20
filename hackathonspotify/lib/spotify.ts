@@ -27,6 +27,7 @@ const getUsersTopAlbums = async (accessToken: string) => {
           releaseDate: xx.album.release_date,
           artistName: xx.artists[0].name,
           artworkUrl: xx.album.images[0].url,
+          topSong: xx.name,
         } as Album)
     );
 

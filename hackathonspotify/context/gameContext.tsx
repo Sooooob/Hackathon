@@ -1,4 +1,5 @@
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import React from "react";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import { getUsersTopAlbums } from "~/lib/spotify";
@@ -37,11 +38,18 @@ const GameContextProvider = ({
   children: ReactNode | ReactNode[];
 }) => {
   const session = useSession();
+  const router = useRouter();
 
   const [hints, setHints] = useState<Hint[]>([]);
   const [albums, setAlbums] = useState<Album[]>([]);
   const [highscore, setHighscore] = useState<number>(0);
   const [currentScore, setCurrentscore] = useState<number>(0);
+
+  const handleGameOver = () => {
+    if (albums.filter((x) => x.answered).length === albums.length) {
+      router.push("/finished");
+    }
+  };
 
   useEffect(() => {
     // @ts-ignore
@@ -91,11 +99,13 @@ const GameContextProvider = ({
           const album = albums.find((x) => x.albumId === albumId);
           const isCorrect = album?.name === albumName;
 
-          if (album) album.success = true;
+          if (album) album.answered = true;
           if (isCorrect) {
             setHighscore((x) => x + 1);
             album.success = true;
           }
+
+          handleGameOver();
 
           return {
             correct: isCorrect,
@@ -105,11 +115,13 @@ const GameContextProvider = ({
           const album = albums.find((x) => x.albumId === albumId);
           const isCorrect = album?.artistName === artistName;
 
-          if (album) album.success = true;
+          if (album) album.answered = true;
           if (isCorrect) {
             setHighscore((x) => x + 1);
             album.success = true;
           }
+
+          handleGameOver();
 
           return {
             correct: isCorrect,

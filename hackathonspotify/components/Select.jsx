@@ -14,8 +14,8 @@ const Select = ({ data, selected, onChange, label }) => {
                                 open && "ring-green-600"
                             )}
                         >
-                            {selected?.name
-                                ? <span className="bg-black text-white">{selected?.name}</span>
+                            {selected
+                                ? <span className="bg-black text-white">{selected}</span>
                                 : <span className="bg-black text-gray-300">{label || "..."}</span>
                             }
                             <span className="material-icons-outlined !text-3xl hover:text-gray-500 transition-all">{open ? "arrow_drop_up" : "arrow_drop_down"}</span>
