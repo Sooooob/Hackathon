@@ -1,8 +1,8 @@
 import Image from 'next/image'
+import { Pixelify } from "react-pixelify";
 
 import Emo from '../public/emo.png'
 import { useEffect, useState } from "react";
-import { Rule } from "postcss";
 import { RulesModal } from "~/components/RulesModal";
 
 const SpotifyAlbums = [
@@ -83,28 +83,28 @@ export default function Mood() {
             <div className="py-8">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                     <div className="mx-auto max-w-2xl lg:max-w-none mt-8 grid grid-cols-1 sm:grid-cols-2 md:grip-col-4 lg:grid-cols-5 overflow-hidden text-center ">
-                        {SpotifyAlbums.map((album, index) => (
-                            <div
-                                key={album.id}
-                                className="w-52 h-52 border card"
-                                style={{ animationDelay: `${((index + 1) * 100) / 2}ms` }}
-                            >
-                                <button
-                                    type="button"
-                                    className={`flex justify-center items-center w-52 h-52 bg-contain shadow-inner hover:shadow-lg`}
-                                    onClick={() => setSelectedAlbum(album)}
+                        {SpotifyAlbums.map((album, index) => {
+                            return(
+                                <div
+                                    key={album.id}
+                                    className="w-52 h-52 border card"
+                                    style={{ animationDelay: `${((index + 1) * 100) / 2}ms` }}
                                 >
-
-                                    <img
-                                        src={album.image}
-                                        className={`w-52 h-52 cardInner opacity-0 `}
-                                        style={{ animationDelay: `${((index + 1) * 100) / 2}ms`, animationFillMode: "forwards", imageRendering: "pixelated", }}
-                                        width={52}
-                                        height={52}
-                                    />
-                                </button>
-                            </div>
-                        ))}
+                                    <button
+                                        type="button"
+                                        className={`flex justify-center items-center w-52 h-52 bg-contain shadow-inner hover:shadow-lg relative overflow-hidden`}
+                                        onClick={() => setSelectedAlbum(album)}
+                                    >
+                                        <Pixelify
+                                            src={album.image}
+                                            className={`w-52 h-52 cardInner opacity-0 `}
+                                            style={{ animationDelay: `${((index + 1) * 100) / 2}ms`, animationFillMode: "forwards", imageRendering: "pixelated", }}
+                                            pixelSize={30}
+                                        />
+                                    </button>
+                                </div>
+                            )
+                        })}
                     </div>
                 </div>
             </div>
