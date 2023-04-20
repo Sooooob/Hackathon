@@ -21,7 +21,7 @@ const SpotifyAlbums = [
 export default function Mood() {
     const [play, setPlay] = useState(true);
     const [time, setTime] = useState({ m: 0, s: 0 });
-    const [selectedAlbum, setSelectedAlbum] = useState();
+    const [selectedAlbum, setSelectedAlbum] = useState<any>();
     const [openRulesModal, setOpenRulesModal] = useState(false)
 
     useEffect(() => {
