@@ -52,17 +52,13 @@ export default function Mood() {
                 </div>
             </div>
 
-            <div class="w-40 h-40 bg-blue-500 hover:bg-red-500 transform transition duration-500 ease-in-out hover:-translate-y-1 hover:scale-110">
-                <p class="text-white text-center font-bold pt-16">Hover Me!</p>
-            </div>
-
             <div className="py-8">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                     <div className="mx-auto max-w-2xl lg:max-w-none mt-8 grid grid-cols-1 gap-0.5 overflow-hidden text-center sm:grid-cols-2 lg:grid-cols-6">
                         {SpotifyAlbums.map((album) => (
                             <div
                                 key={album.id}
-                                className="flex justify-center items-center w-40 h-40 bg-white/5 p-8 border"
+                                className="flex justify-center items-center w-40 h-40 bg-white/5 p-8 border transform transition duration-500 ease-in-out hover:origin-top"
                             >
                                 here
                             </div>
