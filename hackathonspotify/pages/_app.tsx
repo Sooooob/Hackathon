@@ -1,17 +1,20 @@
-import '~/styles/globals.css'
+import "~/styles/globals.css";
 
-import { SessionProvider } from "next-auth/react"
-import { AppProps } from 'next/app'
+import { SessionProvider } from "next-auth/react";
+import { AppProps } from "next/app";
 
-import 'material-icons/iconfont/material-icons.css'
+import "material-icons/iconfont/material-icons.css";
+import { GameContextProvider } from "~/context/gameContext";
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
-}: AppProps ) {
+}: AppProps) {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <GameContextProvider>
+        <Component {...pageProps} />
+      </GameContextProvider>
     </SessionProvider>
-  )
+  );
 }

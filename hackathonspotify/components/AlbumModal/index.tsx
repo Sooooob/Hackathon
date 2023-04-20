@@ -1,16 +1,37 @@
-import React, { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import React, { Fragment, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
 // @ts-ignore
 import { Pixelify } from "react-pixelify";
+import { Album } from "~/lib/spotify";
+import { useGameContext } from "~/context/gameContext";
+import { Select } from "~/components/Select";
 
 type Props = {
-    album?: any,
-    open: boolean,
-    close: () => void
-}
+    album?: any;
+    open: boolean;
+    close: () => void;
+};
 
 const AlbumModal = ({ album, open, close }: Props) => {
-    console.log(album)
+    const [selectedArtist, setSelectedArtist] = useState<string>();
+    const [selectedAlbum, setSelectedAlbum] = useState<string>();
+    const canSubmit = selectedAlbum && selectedArtist;
+
+    const onSubmit = () => {
+        if (canSubmit) {
+            let result = guessAlbum(album.albumId, selectedAlbum);
+            let resultArtist = guessArtist(album.albumId, selectedArtist);
+            console.log(result);
+        }
+    };
+
+    const {
+        albums: albumData,
+        artistNames,
+        guessAlbum,
+        guessArtist,
+    } = useGameContext();
+
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={close}>
@@ -39,9 +60,9 @@ const AlbumModal = ({ album, open, close }: Props) => {
                         >
                             <Dialog.Panel
                                 className="relative transform overflow-hidden rounded-lg bg-gray-900 px-6 pb-6 pt-7 text-left shadow-xl
-                                transition-all sm:my-8 sm:w-full sm:max-w-3xl sm:p-6">
+                                transition-all sm:my-8 sm:w-full sm:max-w-3xl sm:p-6"
+                            >
                                 <div>
-
                                     <div className="flex flex-col items-center mt-3 text-center sm:mt-5 w-full">
                                         <h3 className="text-base font-semibold leading-6 text-gray-100 text-3xl mb-4">
                                             Guess the Album
@@ -56,21 +77,31 @@ const AlbumModal = ({ album, open, close }: Props) => {
                                                 />
                                             </div>
 
-                                            <p className="mt-8 text-gray-300">
-                                                Select you Answer:
-                                            </p>
-                                            <ul>
-                                                <li>Taylor</li>
-                                                <li>Miley</li>
-                                                <li>Ed</li>
-                                                <li>Frank</li>
-                                                <li>Billy</li>
-                                            </ul>
+                                            <p className="mt-8 text-gray-300">Select Album Name</p>
+                                            {/*// @ts-ignore*/}
+                                            <Select
+                                                data={albumData.map(x => ({ name: x.name, id: x.albumId }))}
+                                                // @ts-ignore
+                                                onChange={(e) => {
+                                                    setSelectedAlbum(e.id);
+                                                }}
+                                            />
 
+                                            <p className="mt-8 text-gray-300">Select Artist</p>
+                                            {/*// @ts-ignore*/}
+                                            <Select
+                                                data={artistNames.map(x => ({ name: x, id: x }))}
+                                                // @ts-ignore
+                                                onChange={(e) => {
+                                                    setSelectedArtist(e);
+                                                }}
+                                            />
                                             <button
-                                                className=""
+                                                onClick={onSubmit}
+                                                disabled={!canSubmit}
+                                                className="my-3 inline-flex w-full justify-center rounded-md bg-slate-600 px-3 py-2 text-white text-sm font-semibold transition-all text-white shadow-sm hover:bg-slate-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                             >
-                                                Go
+                                                Confirm
                                             </button>
                                         </div>
                                     </div>
@@ -91,6 +122,6 @@ const AlbumModal = ({ album, open, close }: Props) => {
             </Dialog>
         </Transition.Root>
     );
-}
+};
 
 export { AlbumModal };
