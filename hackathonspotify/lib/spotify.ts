@@ -31,12 +31,14 @@ const getUsersTopAlbums = async (accessToken: string) => {
         } as Album)
     );
 
-  return albums.filter(
-    //@ts-ignore
-    (album, index, self) =>
+  return albums
+    .filter(
       //@ts-ignore
-      index === self.findIndex((t) => t.name === album.name)
-  );
+      (album, index, self) =>
+        //@ts-ignore
+        index === self.findIndex((t) => t.name === album.name)
+    )
+    .sort(() => Math.random() - 0.5);
 };
 
 const getUsersSavedAlbums = async (accessToken: string) => {
