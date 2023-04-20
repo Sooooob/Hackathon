@@ -40,6 +40,9 @@ const GameContextProvider = ({
 }) => {
   const session = useSession();
   const router = useRouter();
+  const correctAlbumIncrement = 10;
+  const correctArtistIncrement = 10;
+  const hintsDeduction = 5;
 
   const [hints, setHints] = useState<Hint[]>([]);
   const [albums, setAlbums] = useState<Album[]>([]);
@@ -89,6 +92,8 @@ const GameContextProvider = ({
           const existingHints = hints.filter((x) => x.albumId === albumId);
           const existingHintTypes = existingHints.map((x) => x.type);
 
+          setCurrentscore((x) => x - hintsDeduction);
+
           if (!existingHintTypes.includes("ReleaseDate")) {
             setHints((h) => [
               ...h,
@@ -127,7 +132,7 @@ const GameContextProvider = ({
 
           if (album) album.answered = true;
           if (isCorrect) {
-            setCurrentscore((x) => x + 1);
+            setCurrentscore((x) => x + correctAlbumIncrement);
             album.success = true;
           }
 
@@ -143,7 +148,7 @@ const GameContextProvider = ({
 
           if (album) album.answered = true;
           if (isCorrect) {
-            setCurrentscore((x) => x + 1);
+            setCurrentscore((x) => x + correctArtistIncrement);
             album.success = true;
           }
 

@@ -3,6 +3,7 @@ import Emo from "../public/emo.png";
 import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useGameContext } from "~/context/gameContext";
+import Link from "next/link";
 import { useTimeContext } from "~/context/timeContext";
 import { useRouter } from "next/router";
 
