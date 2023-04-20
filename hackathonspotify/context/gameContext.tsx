@@ -23,6 +23,7 @@ export interface GameContextState {
   highscore: number;
   getAvailableHints(albumId: string): Hint[];
   currentScore: number;
+  possibleHighestScore: number;
   guessAlbum(albumId: string, albumName: string): GuessResult;
   guessArtist(albumId: string, artistName: string): GuessResult;
   requestHint(albumId: string): void;
@@ -48,6 +49,7 @@ const GameContextProvider = ({
   const [albums, setAlbums] = useState<Album[]>([]);
   const [highscore, setHighscore] = useState<number>(0);
   const [currentScore, setCurrentscore] = useState<number>(0);
+  const [possibleHighestScore, setPossibleHighestScore] = useState<number>(0);
 
   const handleGameOver = () => {
     if (currentScore > highscore) {
@@ -66,7 +68,12 @@ const GameContextProvider = ({
     // @ts-ignore
     if (session?.data?.accessToken) {
       // @ts-ignore
-      getUsersTopAlbums(session?.data?.accessToken).then((x) => setAlbums(x));
+      getUsersTopAlbums(session?.data?.accessToken).then((x) => {
+        setAlbums(x);
+        setPossibleHighestScore(
+          (correctAlbumIncrement + correctArtistIncrement) * x.length
+        );
+      });
     }
   };
 
@@ -74,7 +81,12 @@ const GameContextProvider = ({
     // @ts-ignore
     if (session?.data?.accessToken) {
       // @ts-ignore
-      getUsersTopAlbums(session?.data?.accessToken).then((x) => setAlbums(x));
+      getUsersTopAlbums(session?.data?.accessToken).then((x) => {
+        setAlbums(x);
+        setPossibleHighestScore(
+          (correctAlbumIncrement + correctArtistIncrement) * x.length
+        );
+      });
     }
   }, [session]);
 
@@ -83,6 +95,7 @@ const GameContextProvider = ({
       value={{
         albums,
         highscore,
+        possibleHighestScore,
         reset: handleReset,
         getAvailableHints: (albumId: string) => {
           return hints.filter((x) => x.albumId === albumId);

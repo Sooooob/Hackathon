@@ -10,7 +10,8 @@ import { useRouter } from "next/router";
 export default function Finished() {
   const router = useRouter();
   const session = useSession({ required: true });
-  const { highscore, currentScore, reset } = useGameContext();
+  const { highscore, currentScore, possibleHighestScore, reset } =
+    useGameContext();
   const { toggleTimer, currentTimer } = useTimeContext();
 
   useEffect(() => {
@@ -49,7 +50,9 @@ export default function Finished() {
             <span className="material-icons-outlined bg-green-600 p-2 rounded-lg !text-9xl">
               check_circle
             </span>
-            <p className="!text-9xl pt-8">{currentScore}</p>
+            <p className="!text-9xl pt-8">
+              {currentScore}/{possibleHighestScore}
+            </p>
             <p className="!text-1xl italic pt-8">Time taken: {currentTimer}</p>
           </div>
 
@@ -59,7 +62,9 @@ export default function Finished() {
               star
             </span>
 
-            <p className="!text-9xl pt-8">{highscore}</p>
+            <p className="!text-9xl pt-8">
+              {highscore}/{possibleHighestScore}
+            </p>
             <p className="!text-1xl italic pt-8">Total time: {currentTimer}</p>
           </div>
         </div>
