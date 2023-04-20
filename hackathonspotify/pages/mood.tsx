@@ -37,18 +37,18 @@ export default function Mood() {
     }
   };
 
-  useEffect(() => {
-    const interval = setInterval(function () {
-      if (play) {
-        if (time.s === 59) {
-          setTime({ s: 0, m: time.m + 1 });
-        } else {
-          setTime({ s: time.s + 1, m: time.m });
-        }
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [time, play]);
+  // useEffect(() => {
+  //   const interval = setInterval(function () {
+  //     if (play) {
+  //       if (time.s === 59) {
+  //         setTime({ s: 0, m: time.m + 1 });
+  //       } else {
+  //         setTime({ s: time.s + 1, m: time.m });
+  //       }
+  //     }
+  //   }, 1000);
+  //   return () => clearInterval(interval);
+  // }, [time, play]);
 
   const togglePlay = () => {
     setPlay(!play);

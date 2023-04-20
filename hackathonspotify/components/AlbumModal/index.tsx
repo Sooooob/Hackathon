@@ -12,7 +12,24 @@ type Props = {
 };
 
 const AlbumModal = ({ album, open, close }: Props) => {
-  const { albums: albumData } = useGameContext();
+  const [selectedArtist, setSelectedArtist] = useState<string>();
+  const [selectedAlbum, setSelectedAlbum] = useState<string>();
+  const canSubmit = selectedAlbum && selectedArtist;
+
+  const onSubmit = () => {
+    if (canSubmit) {
+      let result = guessAlbum(album.albumId, selectedAlbum);
+      let resultArtist = guessArtist(album.albumId, selectedArtist);
+      console.log(result);
+    }
+  };
+
+  const {
+    albums: albumData,
+    artistNames,
+    guessAlbum,
+    guessArtist,
+  } = useGameContext();
 
   console.log(album);
   return (
@@ -61,7 +78,12 @@ const AlbumModal = ({ album, open, close }: Props) => {
                       </div>
 
                       <p className="mt-8 text-gray-300">Select Album Name</p>
-                      <select name="albumChoice">
+                      <select
+                        name="albumChoice"
+                        onChange={(e) => {
+                          setSelectedAlbum(e.target.value);
+                        }}
+                      >
                         {albumData &&
                           albumData.map((album) => {
                             return (
@@ -70,17 +92,28 @@ const AlbumModal = ({ album, open, close }: Props) => {
                           })}
                       </select>
 
-                      {/* <p className="mt-8 text-gray-300">Select Artist</p>
-                      <select name="artistChoice">
-                        {albums &&
-                          albums.map((albumArtist) => {
+                      <p className="mt-8 text-gray-300">Select Artist</p>
+                      <select
+                        name="artistChoice"
+                        onChange={(e) => {
+                          setSelectedArtist(e.target.value);
+                        }}
+                      >
+                        {artistNames &&
+                          artistNames.map((albumArtist) => {
                             return (
                               <option key={albumArtist}>{albumArtist}</option>
                             );
                           })}
-                      </select> */}
+                      </select>
 
-                      <button className="">Confirm</button>
+                      <button
+                        onClick={onSubmit}
+                        disabled={!canSubmit}
+                        className=""
+                      >
+                        Confirm
+                      </button>
                     </div>
                   </div>
                 </div>
